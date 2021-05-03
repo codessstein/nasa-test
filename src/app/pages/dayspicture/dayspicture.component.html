@@ -1,0 +1,17 @@
+<mat-form-field appearance="fill">
+    <mat-label>Choose a date</mat-label>
+    <input matInput [matDatepicker]="picker" [formControl]="date">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+</mat-form-field>
+
+<button (click)="getPicture()">Get</button>
+<article *ngIf="picture; else load">
+    <h2>{{picture.title}}</h2>
+    <p>{{picture.explanation}}</p>
+    <img [src]="picture.url" alt="picture of the day">
+</article>
+
+<ng-template #load>
+    <app-loadbar ></app-loadbar>
+</ng-template>
