@@ -1,0 +1,10 @@
+{
+    "main": {
+        "title": "Nasa Test"
+    },
+    "nav": {
+        "nearby": "Nearby asteroids",
+        "picture": "Astronomy picture of the day",
+        "submit": "Submit new planet"
+    }     
+}

@@ -71,12 +71,13 @@ export class AsteroidsComponent implements OnInit, OnDestroy {
       for(let day in near_earth_objects) {
         asteroids = asteroids.concat(near_earth_objects[day]);
       }
-      console.log(data);
+
       this.dataSource = new MatTableDataSource(asteroids);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
-    this.submit = true;
+
+    this.submit = true; 
     this.subscription.add(request);
   } 
 

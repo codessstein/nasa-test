@@ -1,0 +1,17 @@
+ul {
+    display: flex;
+}
+
+li {
+    display: flex;
+    padding: 5px;
+}
+
+button {
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    text-decoration: underline;
+}
