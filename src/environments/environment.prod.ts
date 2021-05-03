@@ -1,3 +1,5 @@
 export const environment = {
-  production: true
+  production: true,
+  apiUrl: 'https://api.nasa.gov',
+  token: 'GEcLqgnlbCEogRenRjViJo4bLEfPn4Dbp9f0HxZV',
 };
