@@ -1,0 +1,62 @@
+<section> 
+  <div>
+    If you found new planet you can add it to our directory (Reactive forms demo)
+  </div>
+  <form [formGroup]="form" (ngSubmit)="onSubmit(form)">
+    <div>
+      <label>
+        <input formControlName="planetName" placeholder="Planet Name">
+        <div class="errors" *ngIf="form.controls.planetName.errors && isSubmited">
+            <span *ngIf="form.controls.planetName.errors.required">Required</span>
+          </div>
+      </label>
+    </div>
+    <div>
+      <label>
+        <select formControlName="galaxy">
+            <option disabled selected value>Galaxy Name</option>
+            <option value="milky_way">Milky Way</option>
+            <option value="milky_way">Messier 83</option>
+            <option value="milky_way">Black Eye</option>
+        </select>
+        <div class="errors" *ngIf="form.controls.galaxy.errors && isSubmited">
+            <span *ngIf="form.controls.galaxy.errors.required">Required</span>
+          </div>
+      </label>
+    </div>
+    <div>
+      <label>
+        <input formControlName="diameter" type="number" placeholder="Diameter">
+        <div class="errors" *ngIf="form.controls.diameter.errors && isSubmited">
+            <span *ngIf="form.controls.diameter.errors.required">Required</span>
+          </div>
+      </label>
+    </div>
+    <div>
+        <label>
+          <input formControlName="distance" type="number" placeholder="Distance">
+          <div class="errors" *ngIf="form.controls.distance.errors && isSubmited">
+            <span *ngIf="form.controls.distance.errors.required">Required</span>
+          </div>
+        </label>
+      </div>
+    <div>
+        <label>
+          <input formControlName="username" placeholder="Your Name">
+          <div class="errors" *ngIf="form.controls.username.errors && isSubmited">
+            <span *ngIf="form.controls.username.errors.required">Required</span>
+          </div>
+        </label>
+      </div>
+      <div>
+        <label>
+          <input formControlName="email" type="email" placeholder="Your Email">
+          <div class="errors" *ngIf="form.controls.email.errors && isSubmited">
+            <span *ngIf="form.controls.email.errors.required">Required</span>
+            <span *ngIf="form.controls.email.errors.email">Email is invalid</span>
+          </div>
+        </label>
+      </div>
+    <button type="submit">Send</button>
+  </form>
+</section>

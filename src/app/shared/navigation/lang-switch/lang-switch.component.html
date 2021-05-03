@@ -1,0 +1,5 @@
+<ul>
+    <li *ngFor="let language of languages">
+        <button href="#" (click)="translate.use(language.code)">{{language.title}}</button>
+    </li>
+</ul>

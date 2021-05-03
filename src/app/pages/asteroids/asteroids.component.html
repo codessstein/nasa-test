@@ -1,0 +1,64 @@
+<section>
+  <div class="data-pickers">
+    <mat-form-field class="data-picker" appearance="fill">
+      <mat-label>Choose a date</mat-label>
+      <input matInput [matDatepicker]="startPicker" [formControl]="startDate">
+      <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+      <mat-datepicker #startPicker></mat-datepicker>
+    </mat-form-field>
+  
+    <mat-form-field class="data-picker" appearance="fill">
+      <mat-label>Choose a date</mat-label>
+      <input matInput [matDatepicker]="endPicker" [formControl]="endDate">
+      <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+      <mat-datepicker #endPicker></mat-datepicker>
+    </mat-form-field>
+  
+    <button class="get-button" (click)="getAsteroids()">Get</button>
+  </div>
+
+
+  <div class="table" *ngIf="submit">
+    <mat-form-field>
+      <mat-label>Search</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Search" #input>
+    </mat-form-field>
+
+    <div class="mat-elevation-z8">
+      <table mat-table [dataSource]="dataSource" matSort>
+
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Title </th>
+          <td mat-cell *matCellDef="let row"> {{row.name}} </td>
+        </ng-container>
+        <ng-container matColumnDef="distance">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Distance (km) </th>
+          <td mat-cell *matCellDef="let row"> {{row.close_approach_data[0].miss_distance.kilometers}} </td>
+        </ng-container>
+        <ng-container matColumnDef="absolute_magnitude">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Absolute Magnitude </th>
+          <td mat-cell *matCellDef="let row"> {{row.absolute_magnitude_h}} </td>
+        </ng-container>
+        <ng-container matColumnDef="is_potentially_hazardous">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Is potentially hazardous </th>
+          <td mat-cell *matCellDef="let row" [style.color]="row.color"> {{
+            row.is_potentially_hazardous_asteroid ? 'Yes': 'No'
+            }} </td>
+        </ng-container>
+        <ng-container matColumnDef="diameter">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Diameter (meters) </th>
+          <td mat-cell *matCellDef="let row" [style.color]="row.color">
+            {{row.estimated_diameter.kilometers.estimated_diameter_max}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+        </tr>
+      </table>
+
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+    </div>
+  </div>
+</section>
