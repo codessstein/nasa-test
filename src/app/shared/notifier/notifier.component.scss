@@ -1,0 +1,28 @@
+$red: #FF512B;
+
+.notifier {
+    position: absolute;
+    right: 20px;
+    top: 100px;
+    padding: 20px 30px;
+    color: #fff;
+    animation: notifier-animation 2s; 
+}
+
+@keyframes notifier-animation {
+    0% {
+        background: none;
+    }
+
+    10% {
+        background: $red;
+    }
+
+    90% {
+        background: $red;
+    }
+
+    100% {
+        background: none;
+    }
+}
