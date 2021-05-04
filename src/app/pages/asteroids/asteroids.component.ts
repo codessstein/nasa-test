@@ -1,29 +1,13 @@
-import { AfterViewInit,Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
+import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
-import {MatPaginator} from '@angular/material/paginator';
-import {MatSort} from '@angular/material/sort';
-import {MatTableDataSource} from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
 
 import { DateService } from '../../date.service';
 import { NasaApiService } from '../../nasa-api.service';
-
-export interface UserData {
-  id: string;
-  name: string;
-  progress: string;
-  color: string;
-}
-
-const COLORS: string[] = [
-  'maroon', 'red', 'orange', 'yellow', 'olive', 'green', 'purple', 'fuchsia', 'lime', 'teal',
-  'aqua', 'blue', 'navy', 'black', 'gray'
-];
-const NAMES: string[] = [
-  'Maia', 'Asher', 'Olivia', 'Atticus', 'Amelia', 'Jack', 'Charlotte', 'Theodore', 'Isla', 'Oliver',
-  'Isabella', 'Jasper', 'Cora', 'Levi', 'Violet', 'Arthur', 'Mia', 'Thomas', 'Elizabeth'
-];
 
 @Component({
   selector: 'app-asteroids',
@@ -35,8 +19,10 @@ export class AsteroidsComponent implements OnInit, OnDestroy {
   
   public startDate: FormControl = new FormControl(new Date());
   public endDate: FormControl = new FormControl(new Date());
-
+  public error: string | null = null;
+  public buttonDisabled: boolean = false;
   public submit: boolean = false;
+  public loaderView: boolean = false;
 
   displayedColumns: string[] = [
     'name', 
@@ -61,24 +47,34 @@ export class AsteroidsComponent implements OnInit, OnDestroy {
   }
 
   public getAsteroids(): void {
-    const range = {
-      start: this.dateService.formatDate(new Date(this.startDate.value)),
-      end: this.dateService.formatDate(new Date(this.endDate.value)),
-    }
-    const request = this.nasaApiService.getAsteroids(range).subscribe(async (data: any) => {
-      let asteroids: any = [];
-      const { near_earth_objects } = data;  
-      for(let day in near_earth_objects) {
-        asteroids = asteroids.concat(near_earth_objects[day]);
+    const week = 7;
+    this.buttonDisabled = true;
+    if(this.dateService.daysBetween(this.startDate.value, this.endDate.value) < week) {
+      this.loaderView = true;
+      
+      const range = {
+        start: this.dateService.formatDate(new Date(this.startDate.value)),
+        end: this.dateService.formatDate(new Date(this.endDate.value)),
       }
+      const request = this.nasaApiService.getAsteroids(range).subscribe(async (data: any) => {
+        let asteroids: any = [];
+        const { near_earth_objects } = data;
 
-      this.dataSource = new MatTableDataSource(asteroids);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-    });
+        for(let day in near_earth_objects) {
+          asteroids = asteroids.concat(near_earth_objects[day]);
+        }
+        this.loaderView = false;
+        this.dataSource = new MatTableDataSource(asteroids);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        this.buttonDisabled = false;
+      });
 
-    this.submit = true; 
-    this.subscription.add(request);
+      this.submit = true;
+      this.subscription.add(request);
+    } else {
+      this.error = 'Range must be a week';
+    }
   } 
 
   public applyFilter(event: Event) {
@@ -88,6 +84,11 @@ export class AsteroidsComponent implements OnInit, OnDestroy {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  public destroyNotifier(): void {
+    this.error = null;
+    this.buttonDisabled = false;
   }
 
 }

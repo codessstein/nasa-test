@@ -6,5 +6,8 @@
         "nearby": "Nearby asteroids",
         "picture": "Astronomy picture of the day",
         "submit": "Submit new planet"
-    }     
+    },
+    "form": {
+        "head": "If you found new planet you can add it to our directory (Reactive forms demo)"
+    }
 }

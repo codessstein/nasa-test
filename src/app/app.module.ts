@@ -27,6 +27,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { NotifierComponent } from './shared/notifier/notifier.component';
 
 
 export function createTranslateLoader(http: HttpClient) {
@@ -47,6 +48,7 @@ export function createTranslateLoader(http: HttpClient) {
     LangSwitchComponent,
     MainLogoComponent,
     LoadbarComponent,
+    NotifierComponent,
   ],
   imports: [
     BrowserModule,
